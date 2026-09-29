@@ -8,8 +8,31 @@
 import SwiftUI
 
 struct RestaurantInfoView: View {
+    let socialMedia:[String:String] = [
+        "Instagram": "@lemon",
+        "Facebook": "facebook.com/",
+        "Tiktok": "@lemon.restaurant",
+    ]
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            List {
+                Section(header: Text("Social Media")){
+                    ForEach(Array(socialMedia), id:\.key) { key, value in
+                        HStack {
+                            Text(key)
+                                .font(.headline)
+                            
+                            Spacer()
+                            
+                            Text(value)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                
+            }
+            .navigationTitle("Restaurant Information")
+        }
     }
 }
 

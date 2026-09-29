@@ -22,6 +22,10 @@ struct ReservationForm: View {
     @State private var kidsCount = 0
     @State private var occasion = ""
     
+    func guestLable(_ count:Int) -> String {
+        return count == 1 ? "Guest" : "Guests"
+    }
+    
     var body: some View {
         Form {
             // header
@@ -48,10 +52,21 @@ struct ReservationForm: View {
                     .textInputAutocapitalization(.words)
                     .autocorrectionDisabled(true)
                 
-                Stepper("Guests: \(guestCount)", value: $guestCount, in: 1...maxGuest)
+                Stepper("\(guestLable(guestCount)) \(guestCount)", value:
+                            $guestCount, in: 1...maxGuest)
                 
-                // children stepper (starts at 0, up to 5)
-                Stepper("Children: \(kidsCount)", value: $kidsCount, in: 0...maxChildren)
+                if guestCount >= 9 {
+                    Text("Almost Over Capacity")
+                        .foregroundStyle(.yellow)
+                }
+                
+                // children stepper
+                Stepper("children: \(kidsCount)", value: $kidsCount, in: 0...maxChildren)
+                
+                if kidsCount == maxChildren {
+                    Text("maximum number of children reached")
+                        .foregroundStyle(.orange)
+                }
                 
                 // occasion text field
                 TextField("Occasion (Birthday, Anniversary, etc.)", text: $occasion)
